@@ -612,7 +612,8 @@ Precision
 .. cmakeoption:: SUNDIALS_PRECISION
 
    The floating-point precision used in SUNDIALS packages and class
-   implementations, options are: ``single``, ``double``, or ``extended``
+   implementations, options are: ``single``, ``double``, ``extended``
+   or ``float128``
 
    Default: ``double``
 
@@ -623,9 +624,18 @@ Math Library
 
 .. cmakeoption:: SUNDIALS_MATH_LIBRARY
 
-   The standard C math library (e.g., ``libm``) to link with.
+   The standard C math library (e.g., ``libm``; ``libquadmath`` for float128) to link with.
 
-   Default: ``-lm`` on Unix systems, none otherwise
+   Default: ``-lm -lquadmath`` on Unix systems, none otherwise. For example:
+
+   .. code-block:: bash
+
+      cmake \
+        -S SOLVER_DIR \
+        -B BUILD_DIR \
+        -D CMAKE_INSTALL_PREFIX=INSTALL_DIR \
+        -D SUNDIALS_PRECISION=float128 \
+        -D SUNDIALS_MATH_LIBRARY=/usr/lib/x86_64-linux-gnu/libm.so;/usr/lib/gcc/x86_64-linux-gnu/13/libquadmath.so \
 
 .. _Installation.Options.Packages:
 
@@ -635,41 +645,65 @@ SUNDIALS Packages
 The following options can be used to enable/disable particular SUNDIALS
 packages.
 
-.. cmakeoption:: BUILD_ARKODE
+.. cmakeoption:: SUNDIALS_ENABLE_ARKODE
 
-   Build the ARKODE library
-
-   Default: ``ON``
-
-.. cmakeoption:: BUILD_CVODE
-
-   Build the CVODE library
+   Enable the ARKODE library
 
    Default: ``ON``
 
-.. cmakeoption:: BUILD_CVODES
+   .. versionadded:: x.y.z
 
-   Build the CVODES library
+      Replaces the deprecated option ``BUILD_ARKODE``
 
-   Default: ``ON``
+.. cmakeoption:: SUNDIALS_ENABLE_CVODE
 
-.. cmakeoption:: BUILD_IDA
-
-   Build the IDA library
+   Enable the CVODE library
 
    Default: ``ON``
 
-.. cmakeoption:: BUILD_IDAS
+   .. versionadded:: x.y.z
 
-   Build the IDAS library
+      Replaces the deprecated option ``BUILD_CVODE``
+
+.. cmakeoption:: SUNDIALS_ENABLE_CVODES
+
+   Enable the CVODES library
+
+   Default: ``ON``
+
+   .. versionadded:: x.y.z
+
+      Replaces the deprecated option ``BUILD_CVODES``
+
+.. cmakeoption:: SUNDIALS_ENABLE_IDA
+
+   Enable the IDA library
 
    Default: ``ON``
 
-.. cmakeoption:: BUILD_KINSOL
+   .. versionadded:: x.y.z
 
-   Build the KINSOL library
+      Replaces the deprecated option ``BUILD_IDA``
+
+.. cmakeoption:: SUNDIALS_ENABLE_IDAS
+
+   Enable the IDAS library
 
    Default: ``ON``
+
+   .. versionadded:: x.y.z
+
+      Replaces the deprecated option ``BUILD_IDAS``
+
+.. cmakeoption:: SUNDIALS_ENABLE_KINSOL
+
+   Enable the KINSOL library
+
+   Default: ``ON``
+
+   .. versionadded:: x.y.z
+
+      Replaces the deprecated option ``BUILD_KINSOL``
 
 .. _Installation.Options.Examples:
 
@@ -1090,8 +1124,8 @@ configure SUNDIALS with Ginkgo support using the reference, OpenMP, and CUDA
 
 .. note::
 
-   The SUNDIALS interfaces to Ginkgo are not compatible with extended precision
-   (i.e., when :cmakeop:`SUNDIALS_PRECISION` is set to ``extended``).
+   The SUNDIALS interfaces to Ginkgo are not compatible with extended or float128 precision
+   (i.e., when :cmakeop:`SUNDIALS_PRECISION` is set to ``extended`` or ``float128``).
 
 .. cmakeoption:: SUNDIALS_ENABLE_GINKGO
 

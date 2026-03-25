@@ -5,6 +5,10 @@
 
 **New Features and Enhancements**
 
+Add `__float128` support with quadmath dependency and ostream integration.
+
+Updated the Kokkos N_Vector to support Kokkos 5.x versions.
+
 **Bug Fixes**
 
 Fixed a CMake bug where the SuperLU_MT interface would not be built and
@@ -12,6 +16,9 @@ installed without setting the ``SUPERLUMT_WORKS`` option to ``TRUE``.
 
 Fixed the embedded coefficients for the ``ARKODE_TSITOURAS_7_4_5`` Butcher
 table.
+
+Fixed a bug where passing an empty string to ``SUNLogger_Set{Error,Warning,Info,Debug}Filename``
+did not disable the corresponding logging stream `Issue #844 <https://github.com/llnl/sundials/issues/844>`__.
 
 **Deprecation Notices**
 
@@ -23,6 +30,18 @@ table below lists the old CMake option names and the new replacements.
 
 +-------------------------------------------+---------------------------------------------------------+
 | Old Option                                | New Option                                              |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_ARKODE``                          | :cmakeop:`SUNDIALS_ENABLE_ARKODE`                       |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_CVODE``                           | :cmakeop:`SUNDIALS_ENABLE_CVODE`                        |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_CVODES``                          | :cmakeop:`SUNDIALS_ENABLE_CVODES`                       |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_IDA``                             | :cmakeop:`SUNDIALS_ENABLE_IDA`                          |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_IDAS``                            | :cmakeop:`SUNDIALS_ENABLE_IDAS`                         |
++-------------------------------------------+---------------------------------------------------------+
+| ``BUILD_KINSOL``                          | :cmakeop:`SUNDIALS_ENABLE_KINSOL`                       |
 +-------------------------------------------+---------------------------------------------------------+
 | ``ENABLE_MPI``                            | :cmakeop:`SUNDIALS_ENABLE_MPI`                          |
 +-------------------------------------------+---------------------------------------------------------+

@@ -18,15 +18,15 @@
 # list of tests
 set(tests)
 
-if(BUILD_ARKODE)
+if(SUNDIALS_ENABLE_ARKODE)
   list(APPEND tests "arkode\;BENCHMARK_ODE")
 endif()
 
-if(BUILD_CVODE)
+if(SUNDIALS_ENABLE_CVODE)
   list(APPEND tests "cvode\;BENCHMARK_ODE")
 endif()
 
-if(BUILD_IDA)
+if(SUNDIALS_ENABLE_IDA)
   list(APPEND tests "ida\;BENCHMARK_DAE")
 endif()
 
@@ -54,10 +54,11 @@ foreach(test_tuple ${tests})
 
   target_include_directories(${target} PRIVATE ${benchmark_prefix})
 
-  target_link_libraries(${target} PRIVATE sundials_${package}
-                                          sundials_nvecparallel MPI::MPI_CXX)
+  target_link_libraries(
+    ${target} PRIVATE sundials_${package} sundials_nvecparallel MPI::MPI_CXX
+                      ${SUNDIALS_MATH_LIBRARY})
 
-  if(BUILD_SUNLINSOL_SUPERLUDIST)
+  if(SUNDIALS_ENABLE_SUNLINSOL_SUPERLUDIST)
     target_compile_definitions(${target} PRIVATE USE_SUPERLU_DIST)
     target_link_libraries(${target} PRIVATE sundials_sunlinsolsuperludist
                                             sundials_sunmatrixslunrloc)
